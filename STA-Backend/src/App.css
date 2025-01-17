@@ -1,0 +1,96 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  margin-top: 40px;
+  color: #333;
+  font-size: 24px;
+}
+
+/* Table Container Styles */
+.table-container {
+  width: 80%;
+  margin: 30px auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+tr:nth-child(even) td {
+  background-color: #f1f1f1;
+}
+
+tr:hover td {
+  background-color: #f0f0f0;
+}
+
+tr:first-child th {
+  border-top: none;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* No Data Available Message */
+p {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .table-container {
+    width: 100%;
+    padding: 15px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th, td {
+    padding: 10px;
+  }
+}
