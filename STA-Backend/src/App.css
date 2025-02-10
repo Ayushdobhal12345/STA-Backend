@@ -11,57 +11,140 @@ body {
   color: #333;
   line-height: 1.6;
   padding: 20px;
+  display: flex;
+  justify-content: center; /* Horizontally center the app */
+  align-items: center; /* Vertically center the app */
+  text-align: center; /* Center all text */
+}
+
+/* General App Styles */
+.App {
+  margin: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  width: 100%;
+}
+
+/* Header */
+h2, h3 {
+  color: #333;
+  margin-bottom: 15px;
 }
 
 h2 {
-  text-align: center;
-  margin-top: 40px;
-  color: #333;
-  font-size: 24px;
+  font-size: 1.8em;
 }
 
-/* Table Container Styles */
+h3 {
+  font-size: 1.5em;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto 20px auto;
+}
+
+input {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+button {
+  padding: 10px;
+  background-color: #008CBA; /* Blue color for Sign Up / Sign In buttons */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #007B9E;
+}
+
+/* Error message styling */
+p.error {
+  color: red;
+  font-size: 1em;
+}
+
+/* Toggle Sign Up / Sign In */
+button[type="submit"] {
+  background-color: #008CBA;
+}
+
+button[type="submit"]:hover {
+  background-color: #007B9E;
+}
+
+button.toggle {
+  margin-top: 10px;
+  background-color: transparent;
+  color: #007B9E;
+  font-size: 1em;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+button.toggle:hover {
+  color: #005f7f;
+}
+
+/* Positioning Sign Up / Sign In Buttons to the Top Right */
+button.signin-signup {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+/* Table Styles */
 .table-container {
-  width: 80%;
-  margin: 30px auto;
+  margin-top: 20px;
+  overflow-x: auto;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;
 }
 
-/* Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
-  border: 1px solid #ddd;
 }
 
 th, td {
   padding: 12px 15px;
-  text-align: left;
   border: 1px solid #ddd;
+  text-align: left;
 }
 
 th {
   background-color: #4CAF50;
   color: white;
-  font-weight: bold;
-  text-transform: uppercase;
 }
 
 td {
-  background-color: #f9f9f9;
+  background-color: #f4f4f4;
 }
 
 tr:nth-child(even) td {
-  background-color: #f1f1f1;
+  background-color: #f9f9f9;
 }
 
-tr:hover td {
-  background-color: #f0f0f0;
+tr:hover {
+  background-color: #f1f1f1;
 }
 
 tr:first-child th {
@@ -73,24 +156,109 @@ tr:last-child td {
 }
 
 /* No Data Available Message */
-p {
+p.no-data {
   text-align: center;
   font-size: 18px;
   color: #888;
 }
 
+/* Welcome Message */
+.welcome-message {
+  margin-bottom: 20px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.welcome-message button {
+  background-color: #ff4040;
+  color: white;
+}
+
+.welcome-message button:hover {
+  background-color: #e03333;
+}
+
 /* Responsive Styles */
-@media screen and (max-width: 768px) {
-  .table-container {
-    width: 100%;
+
+/* Mobile Devices */
+@media (max-width: 480px) {
+  .App {
     padding: 15px;
+    margin: 10px;
   }
 
-  table {
-    font-size: 14px;
+  h2 {
+    font-size: 1.5em;
   }
 
-  th, td {
+  h3 {
+    font-size: 1.3em;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  input, button {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .table-container {
+    margin-top: 15px;
+  }
+
+  table th, table td {
+    padding: 8px;
+  }
+}
+
+/* Tablets (Landscape) */
+@media (min-width: 481px) and (max-width: 768px) {
+  .App {
+    padding: 20px;
+    margin: 15px;
+  }
+
+  h2 {
+    font-size: 1.7em;
+  }
+
+  h3 {
+    font-size: 1.4em;
+  }
+
+  form {
+    width: 80%;
+  }
+
+  input, button {
     padding: 10px;
+    font-size: 1em;
+  }
+}
+
+/* Desktops */
+@media (min-width: 769px) {
+  .App {
+    padding: 20px;
+    margin: 20px;
+  }
+
+  h2 {
+    font-size: 2em; /* Increased font size for laptops and desktops */
+  }
+
+  h3 {
+    font-size: 1.8em;
+  }
+
+  form {
+    width: 50%;
+  }
+
+  input, button {
+    padding: 12px;
+    font-size: 1.2em; /* Increased font size for laptops */
   }
 }

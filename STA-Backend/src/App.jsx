@@ -1,43 +1,112 @@
 import React, { useState, useEffect } from "react";
-import { fetchUserData, fetchBookingData } from "./firebase"; // Ensure these imports are correct
+import { signUp, signIn, logOut, fetchUserData, fetchBookingData, auth } from "./firebase"; // Ensure these imports are correct
 import './App.css'; // This imports the CSS file into your App.jsx
+import { onAuthStateChanged } from 'firebase/auth'; // To track authentication status
 
 function App() {
   const [userData, setUserData] = useState([]);
   const [bookingData, setBookingData] = useState([]);
+  const [user, setUser] = useState(null); // Store authenticated user
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch user data
-    fetchUserData()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const users = snapshot.val();
-          const usersArray = Object.keys(users).map((key) => ({
-            id: key,
-            ...users[key],
-          }));
-          setUserData(usersArray);
-        }
-      })
-      .catch((error) => console.error("Error fetching user data: ", error));
+    // Monitor authentication state
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
 
-    // Fetch booking data
-    fetchBookingData()
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const bookings = snapshot.val();
-          const bookingsArray = Object.keys(bookings).map((key) => ({
-            id: key,
-            ...bookings[key],
-          }));
-          setBookingData(bookingsArray);
-        }
+    // Fetch user data and booking data if authenticated
+    if (user) {
+      fetchUserData()
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const users = snapshot.val();
+            const usersArray = Object.keys(users).map((key) => ({
+              id: key,
+              ...users[key],
+            }));
+            setUserData(usersArray);
+          }
+        })
+        .catch((error) => console.error("Error fetching user data: ", error));
+
+      fetchBookingData()
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const bookings = snapshot.val();
+            const bookingsArray = Object.keys(bookings).map((key) => ({
+              id: key,
+              ...bookings[key],
+            }));
+            setBookingData(bookingsArray);
+          }
+        })
+        .catch((error) => console.error("Error fetching booking data: ", error));
+    }
+
+    return unsubscribe;
+  }, [user]);
+
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    setError(null);
+    signUp(email, password)
+      .then(() => {
+        setIsSignUp(false); // Switch to sign-in after successful sign-up
       })
-      .catch((error) => console.error("Error fetching booking data: ", error));
-  }, []);
+      .catch((error) => setError(error.message));
+  };
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    setError(null);
+    signIn(email, password)
+      .catch((error) => setError(error.message));
+  };
+
+  const handleLogOut = () => {
+    logOut()
+      .catch((error) => setError(error.message));
+  };
 
   return (
     <div className="App">
+      <h2>Authenticate Yourself</h2>
+      {user ? (
+        <div>
+          <p>Welcome, {user.email}</p>
+          <button onClick={handleLogOut}>Log Out</button>
+        </div>
+      ) : (
+        <div>
+          <h3>{isSignUp ? 'Sign Up' : 'Sign In'}</h3>
+          <form onSubmit={isSignUp ? handleSignUp : handleSignIn}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
+          </form>
+          <p>{isSignUp ? 'Already have an account? ' : 'Don\'t have an account? '}
+            <button onClick={() => setIsSignUp(!isSignUp)}>
+              {isSignUp ? 'Sign In' : 'Sign Up'}
+            </button>
+          </p>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </div>
+      )}
+
       <h2>User Data:</h2>
       {userData.length === 0 ? (
         <p>No user data available</p>
