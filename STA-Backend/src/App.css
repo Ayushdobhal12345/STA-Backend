@@ -113,11 +113,10 @@ button.signin-signup {
 .table-container {
   margin-top: 20px;
   margin-bottom: 40px;
-  margin-left: 20px;
+  margin-left: 40px;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 table {
