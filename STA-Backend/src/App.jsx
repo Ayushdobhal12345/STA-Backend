@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { signUp, signIn, logOut, fetchUserData, fetchBookingData, auth } from "./firebase"; // Ensure these imports are correct
+import { signUp, signIn, logOut, fetchUserData, fetchBookingData, auth } from "./firebase"; 
 import './App.css'; // This imports the CSS file into your App.jsx
-import { onAuthStateChanged } from 'firebase/auth'; // To track authentication status
+import { onAuthStateChanged } from 'firebase/auth'; 
 
 function App() {
   const [userData, setUserData] = useState([]);
@@ -74,11 +74,64 @@ function App() {
 
   return (
     <div className="App">
-      <h2>Authenticate Yourself</h2>
+      {/* Conditionally render h2 based on user authentication status */}
+      {!user && <h2>Authenticate Yourself</h2>} 
+
       {user ? (
         <div>
-          <p>Welcome, {user.email}</p>
+          <h2>Welcome, {user.email}</h2>
           <button onClick={handleLogOut}>Log Out</button>
+
+          {/* Conditionally render User Data and Booking Data tables only after login */}
+          <h2>User Data:</h2>
+          {userData.length === 0 ? (
+            <p>No user data available</p>
+          ) : (
+            <div className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {userData.map((user) => (
+                    <tr key={user.id}>
+                      <td>{user.name}</td>
+                      <td>{user.phone}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          <h2>Booking Data:</h2>
+          {bookingData.length === 0 ? (
+            <p>No booking data available</p>
+          ) : (
+            <div className="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Phone Number</th>
+                    <th>Message</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {bookingData.map((booking) => (
+                    <tr key={booking.id}>
+                      <td>{booking.name}</td>
+                      <td>{booking.phone}</td>
+                      <td>{booking.message}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       ) : (
         <div>
@@ -104,56 +157,6 @@ function App() {
             </button>
           </p>
           {error && <p style={{ color: 'red' }}>{error}</p>}
-        </div>
-      )}
-
-      <h2>User Data:</h2>
-      {userData.length === 0 ? (
-        <p>No user data available</p>
-      ) : (
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Phone Number</th>
-              </tr>
-            </thead>
-            <tbody>
-              {userData.map((user) => (
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.phone}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      <h2>Booking Data:</h2>
-      {bookingData.length === 0 ? (
-        <p>No booking data available</p>
-      ) : (
-        <div className="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Phone Number</th>
-                <th>Message</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bookingData.map((booking) => (
-                <tr key={booking.id}>
-                  <td>{booking.name}</td>
-                  <td>{booking.phone}</td>
-                  <td>{booking.message}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       )}
     </div>
