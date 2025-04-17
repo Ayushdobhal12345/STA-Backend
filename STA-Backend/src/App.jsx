@@ -151,12 +151,12 @@ function App() {
             />
             <button type="submit">{isSignUp ? 'Sign Up' : 'Sign In'}</button>
           </form>
-          <p>{isSignUp ? 'Already have an account? ' : 'Don\'t have an account? '}
+          {/* <p>{isSignUp ? 'Already have an account? ' : 'Don\'t have an account? '}
             <button onClick={() => setIsSignUp(!isSignUp)}>
               {isSignUp ? 'Sign In' : 'Sign Up'}
             </button>
-          </p>
-          {error && <p style={{ color: 'red' }}>{error}</p>}
+          </p> */}
+          {error && <p style={{ color: 'red' }}>Invalid username or password</p>}
         </div>
       )}
     </div>
